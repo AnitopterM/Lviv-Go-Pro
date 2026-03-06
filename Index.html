@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LvivGo Pro — AI Time Travel Navigation</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div class="top-interface">
+        <div class="search-container">
+            <input type="text" id="fromInput" placeholder="Звідки..." oninput="handleInput(event, 'from')">
+            <input type="text" id="toInput" placeholder="Куди..." oninput="handleInput(event, 'to')">
+            <div id="fromSuggestions" class="suggestions"></div>
+            <div id="toSuggestions" class="suggestions"></div>
+        </div>
+        <div class="ai-badge" id="aiStatus">AI: АНАЛІЗ ТРАФІКУ</div>
+    </div>
+
+    <div class="time-travel-panel" id="timeTravelPanel">
+        <div class="epoch-labels">
+            <span onclick="setEpoch('medieval')">1450</span>
+            <span onclick="setEpoch('austria')">1890</span>
+            <span onclick="setEpoch('modern')" class="active">2026</span>
+        </div>
+        <div class="slider-container">
+            <input type="range" min="0" max="2" step="1" value="2" id="timeSlider" oninput="handleSlider(this.value)">
+        </div>
+        <div id="currentEpochDisplay" class="epoch-status">Епоха: Сучасність</div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab(this, 'map')"><i class="fas fa-map"></i><span>Мапа</span></div>
+        <div class="nav-item" onclick="switchTab(this, 'routes')"><i class="fas fa-route"></i><span>Маршрути</span></div>
+        <div class="nav-item" onclick="switchTab(this, 'payments')"><i class="fas fa-wallet"></i><span>Оплата</span></div>
+    </nav>
+
+    <div id="paymentModal" class="modal-overlay" onclick="closePayment()">
+        <div class="modal-sheet" onclick="event.stopPropagation()">
+            <div id="paymentInitial">
+                <h3>Оплата квитка</h3>
+                <p id="payRouteName"></p>
+                <div class="price-tag" id="payAmount"></div>
+                <button class="pay-btn apple" onclick="processPayment('Apple Pay')"><i class="fab fa-apple"></i> Apple Pay</button>
+                <button class="pay-btn google" onclick="processPayment('Google Pay')"><i class="fab fa-google"></i> Google Pay</button>
+            </div>
+            <div id="paymentSuccess" style="display:none; text-align:center;">
+                <i class="fas fa-check-circle" style="font-size:50px; color:#10b981;"></i>
+                <h2>Успішно!</h2>
+                <button class="action-btn" onclick="showTicket()">Мій квиток</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
